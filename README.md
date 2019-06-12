@@ -27,7 +27,7 @@ Principais características da placa:
 * 
 
 ## Setup
-Para Instalar o Lolin no Windows seguir o tutorial:
+Para Instalar o NodeMCU no Windows seguir o tutorial:
 
 
 
