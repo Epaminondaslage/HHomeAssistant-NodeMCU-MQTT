@@ -1,9 +1,7 @@
 # NodeMCU
 Programas de exemplo de uso da placa NodeMCU 
-# D1-Mini-Lolin
-Programas de exemplo de uso da placa D1 Mini Lolin
 
-<img src="https://github.com/Epaminondaslage/D1-Mini-Lolin/blob/master/Figuras/esp8266_wemos_d1_mini_1.jpg" height="200" width="200">
+<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
 
 ## Sumário
 * [Informações Gerais](#user-content-informacoes_gerais)
