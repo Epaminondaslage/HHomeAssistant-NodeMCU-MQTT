@@ -1,10 +1,13 @@
-// Programa de mostrar um dado em uma página html com Node MCU 1.0 12-E
-// Necessita de uma conexão wifi
-// Programa: Monitoracao de Caixa d´agua usando Node MCU
-// Display HD44780 com adaptador I2C
-// Data 30/05/2019
-
-
+/* ***********************************************************************
+    Programa de mostrar o nível de uma caixa d'agua em uma web page
+    Utiliza o processador  Node MCU 1.0 12-E
+    Necessita de uma conexão wifi
+    Requer Display HD44780 com adaptador I2C, 3 boias de nível e buzzer
+    Necessita disponibilizar figuras da caixa dágua com vários níveis
+    em diretorio na web
+    Data 30/05/2019
+    Versão atualizada em  10/06/2019
+ *************************************************************************/
 
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
@@ -13,6 +16,7 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
+// SSID e Senha da rede wifi
 #ifndef STASSID
 #define STASSID "123644987"
 #define STAPSK  "planeta514"
@@ -21,12 +25,14 @@
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
+// Inicializa Servidor Web
 ESP8266WebServer server(80);
 
+// Ajusta o endereço do display LCD para 0x27
+// Para  16 caracters e 2 linhas com interface i2c
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); // set the LCD address to 0x27 for a 16 chars and 2 line display e interface i2c
 
-// porque usou sensor em portas 12,13 e 15 ?
 
 #define Pinofalante 2 // saida para buzzer
 #define sensor1 14   // sensor 1
@@ -37,14 +43,14 @@ int frequencia = 0;
 
 int valor_s1 = 1, valor_s2 = 1, valor_s3 = 1;
 
-//Simbolos para display na vertical
+// Simbolos para display na vertical
+// Display montado na posição vertical
 uint8_t letra_C[8] = {0x0, 0xE, 0x11, 0x11, 0x11, 0x11, 0x0, 0x0};
 uint8_t letra_M[8] = {0x0, 0x1F, 0x2, 0x4, 0x2, 0x1F, 0x0, 0x0};
 uint8_t letra_v[8] = {0x0, 0x7, 0x8, 0x10, 0x8, 0x7 , 0x0, 0x0};
 uint8_t caracter_nivel[8] = {0x0, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x0};
 
 int nivel_anterior = 0;
-
 
 void handleRoot() {
   server.send(200, "html", homePage());
@@ -65,9 +71,6 @@ void handleNotFound() {
   server.send(404, "text/plain", message);
 }
 
-/* void Sirene
-*/
-
 void sirene() {
   for (frequencia = 150; frequencia < 1800; frequencia += 1)
   {
@@ -82,16 +85,15 @@ void sirene() {
 }
 
 void setup() {
-  // ajustar a porta serial para 9600 e monitorar
-  // parte wifi
 
+  // Ajusta a porta serial para 9600bps e monitorar a conexão wifi
   Serial.begin(9600);
   Serial.println("Inicializando comunicacao serial ");
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("  ");
 
-  // Esperar por coneccao
+  // Esperar por conexão wifi
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -116,23 +118,21 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server inicializado");
-
-
-  // fim parte wifi
-
   Serial.println("Monitoracao de Caixa Dagua");
 
-  //Inicializa o display I2C
-  lcd.init();                      // initialize the lcd
+  // Inicializa o display I2C
+  lcd.init();
+
   // Imprime messagem no LCD.
   lcd.backlight();
+
   //Caracteres customizados
   lcd.createChar(0, letra_C);
   lcd.createChar(1, letra_M);
   lcd.createChar(2, letra_v);
   lcd.createChar(3, caracter_nivel);
 
-  //Define os pinos dos sensores como entrada
+  // Define os pinos dos sensores como entrada
   pinMode(sensor1, INPUT);
   pinMode(sensor2, INPUT);
   pinMode(sensor3, INPUT);
@@ -140,13 +140,13 @@ void setup() {
   pinMode(Pinofalante, OUTPUT);
   digitalWrite(Pinofalante, LOW);
 
-  //Mostra a letra C no display
+  // Mostra a letra C no display
   lcd.setCursor(15, 0);
   lcd.write(uint8_t(0));
-  //Mostra a letra M no display
+  // Mostra a letra M no display
   lcd.setCursor(8, 0);
   lcd.write(uint8_t(1));
-  //Mostra a letra V no display
+  // Mostra a letra V no display
   lcd.setCursor(0, 0);
   lcd.write(uint8_t(2));
   //lcd.print(ipSend);
@@ -157,26 +157,24 @@ void setup() {
 
 void loop() {
 
-  // controle de nível
-  //Leitura dos sensores
+  // Controle de nível e Leitura dos sensores
   valor_s1 = digitalRead(sensor1);
   valor_s2 = digitalRead(sensor2);
   valor_s3 = digitalRead(sensor3);
 
-  //Mostra valor dos sensores no serial monitor
-  //Serial.print("S1: ");
-  //Serial.print(valor_s1);
-  //Serial.print(" S2: ");
-  //Serial.print(valor_s2);
-  //Serial.print(" S3: ");
-  //Serial.println(valor_s3);
+  // Mostra valor dos sensores no serial monitor
+  Serial.print("S1: ");
+  Serial.print(valor_s1);
+  Serial.print(" S2: ");
+  Serial.print(valor_s2);
+  Serial.print(" S3: ");
+  Serial.println(valor_s3);
 
-  //Checa o nivel e atualiza o display
+  // Checa o nivel e atualiza o display
   if ((valor_s1 == 0) && valor_s2 == 0 && valor_s3 == 0)
   {
-    //Atualiza o nivel no display, enviando o numero de
-    //"quadrados" que devem ser mostrados para indicar
-    //o nivel
+    // Atualiza o nivel no display, enviando o numero de
+    // "quadrados" que devem ser mostrados para indicar o nível
     mostra_nivel(15);
 
   }
@@ -210,11 +208,11 @@ void mostra_nivel(int nivel)
 {
   if (nivel != nivel_anterior)
   {
-    //Apaga informacao anterior
+    // Apaga informacao anterior
     lcd.setCursor(0, 1);
     lcd.print("               ");
     Serial.print(nivel);
-    //Atualiza o nivel no display
+    // Atualiza o nivel no display
     int ultimo = 0;
     for (int i = 0; i <= nivel; i++)
     {
@@ -236,8 +234,6 @@ void mostra_nivel(int nivel)
 }
 
 String homePage() {
-
-
   return (
            "<!DOCTYPE html>"
            "<html>"
