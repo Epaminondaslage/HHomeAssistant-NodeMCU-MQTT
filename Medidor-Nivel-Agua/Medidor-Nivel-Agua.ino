@@ -1,12 +1,12 @@
 /* ***********************************************************************
     Programa de mostrar o nível de uma caixa d'agua em uma web page
-    Utiliza o processador  Node MCU 1.0 12-E
+    Utiliza o processador  NodeMCU 1.0 12-E
     Necessita de uma conexão wifi
     Requer Display HD44780 com adaptador I2C, 3 boias de nível e buzzer
     Necessita disponibilizar figuras da caixa dágua com vários níveis
     em diretorio na web
     Data 30/05/2019
-    Versão atualizada em  10/06/2019
+    Versão atualizada em  15/06/2019
  *************************************************************************/
 
 #include <Wire.h>
@@ -16,10 +16,10 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
-// SSID e Senha da rede wifi
+// Declara SSID e Senha da rede wifi. Colocar os dados da sua rede
 #ifndef STASSID
-#define STASSID "123644987"
-#define STAPSK  "planeta514"
+#define STASSID "xxxxxxxxxx"
+#define STAPSK  "xxxxxxxxxx"
 #endif
 
 const char* ssid = STASSID;
@@ -88,24 +88,33 @@ void setup() {
 
   // Ajusta a porta serial para 9600bps e monitorar a conexão wifi
   Serial.begin(9600);
+  Serial.println(" ");
+  delay(100);
+  Serial.println(" ");
+  delay(100);
   Serial.println("Inicializando comunicacao serial ");
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-  Serial.println("  ");
 
   // Esperar por conexão wifi
+  Serial.print ("Conectando WiFi " );
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-  Serial.println(" ");
+  Serial.println("ok");
+  //Importante : Configura NodeMCU com IP fixo. Ajustar para sua rede
+  IPAddress subnet(255, 255, 255, 0);
+  WiFi.config(IPAddress(10, 0, 0, 24), IPAddress(10, 0, 0, 1), subnet);
+  Serial.println("IP Fixo");
+ 
   Serial.print("Conectado a ");
   Serial.println(ssid);
   Serial.print("Endereco IP : ");
   Serial.println(WiFi.localIP());
-
+  delay(200);
   if (MDNS.begin("esp8266")) {
-    Serial.println("MDNS responder started");
+    Serial.println("MDNS Inicializado");
   }
 
   server.on("/", handleRoot);
@@ -118,7 +127,6 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server inicializado");
-  Serial.println("Monitoracao de Caixa Dagua");
 
   // Inicializa o display I2C
   lcd.init();
@@ -149,7 +157,6 @@ void setup() {
   // Mostra a letra V no display
   lcd.setCursor(0, 0);
   lcd.write(uint8_t(2));
-  //lcd.print(ipSend);
 
   Serial.println("Monitoracao de Caixa Dagua");
   Serial.println();
@@ -169,7 +176,7 @@ void loop() {
   Serial.print(valor_s2);
   Serial.print(" S3: ");
   Serial.println(valor_s3);
-
+  delay(3000);
   // Checa o nivel e atualiza o display
   if ((valor_s1 == 0) && valor_s2 == 0 && valor_s3 == 0)
   {
@@ -211,12 +218,10 @@ void mostra_nivel(int nivel)
     // Apaga informacao anterior
     lcd.setCursor(0, 1);
     lcd.print("               ");
-    Serial.print(nivel);
     // Atualiza o nivel no display
     int ultimo = 0;
     for (int i = 0; i <= nivel; i++)
     {
-      Serial.println(i);
       lcd.setCursor(i, 1);
       lcd.write(uint8_t(3));
       ultimo = i;
@@ -239,16 +244,22 @@ String homePage() {
            "<html>"
            "<meta http-equiv='refresh' content='1'/>"
            "<meta charset=\"utf-8\" />"
+           "<meta name = 'viewport' content = 'width=device-width, initial-scale=1,user-scalable=0'>"
            "<title>Sitio Pe de Serra - Caixa d'agua</title>"
+           "<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css' rel='stylesheet'></link>"
+           "<p>&nbsp;</p>"
+           "<div style='text-align: center;'><img src =  'http://caixagg.planetfone.com.br/img/Sitiopedeserra.png' alt='' width='290' height=63' /></div>"
+           "<div class='alert alert-info' role='alert'><div style='text-align: center;'><h4>Caixa Principal</h4></div></div>"
+           "<div class='col-md-6'>"
            "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-           //"<h6>Sensor 1: " + String(valor_s1) + "</h6>"
-           //"<h6>Sensor 2: " + String(valor_s2) + "</h6>"
-           //"<h6>Sensor 3: " + String(valor_s3) + "</h6>"
            "<span style='display: none;'>" + String(0) + "</span>"
-           "<style>img{max-width: 100%;}</style><div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/sitiopedeserra.bmp'></div>"
-           "<h1>" + ((nivel_anterior == 15) ? "Caixa Cheia<br><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_100.png'>"
-                     : (nivel_anterior == 11) ? "Caixa na Metade<br><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_66.png'>"
-                     : (nivel_anterior == -1) ? "Carregando" : (nivel_anterior == 4) ? "Caixa está quase vazia<br><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_33.png'>"
-                     : "Caixa Vazia<br><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_menor_33.png'>") + "</h1></html>"
+           "<h1>" + ((nivel_anterior == 15) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_100.png' alt='' width='290' height=220' />100%</div>"
+                     : (nivel_anterior == 11) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_66.png' alt='' width='290' height=220' />70%</div>"
+                     : (nivel_anterior == -1) ? "Carregando" : (nivel_anterior == 4) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_33.png' alt='' width='290' height=220' />40%</div>"
+                     : "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_menor_33.png' alt='' width='290' height=220' />15%</div>") + "</h1></html>"
+           "<p>&nbsp;</p>"
+           "<div style='text-align: center;'>&copy 2019 - Epaminondas Lage </div>"
+           "<p>&nbsp;</p>"
          );
+
 }
