@@ -49,9 +49,6 @@ boolean contato = 0;
 
 int valor_s1 = contato, valor_s2 = contato, valor_s3 = contato;
 
-
-
-
 // Simbolos para display na vertical
 // Display montado na posição vertical
 uint8_t letra_C[8] = {0x0, 0xE, 0x11, 0x11, 0x11, 0x11, 0x0, 0x0};
@@ -257,15 +254,15 @@ String homePage() {
            "<title>Sitio Pe de Serra - Caixa d'agua</title>"
            "<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css' rel='stylesheet'></link>"
            "<p>&nbsp;</p>"
-           "<div style='text-align: center;'><img src =  'http://caixagg.planetfone.com.br/img/Sitiopedeserra.png' alt='' width='290' height=63' /></div>"
+           "<div style='text-align: center;'><img src =  'http://iot-day.com/images/projects/Sitiopedeserra.png' alt='' width='290' height=63' /></div>"
            "<div class='alert alert-info' role='alert'><div style='text-align: center;'><h4>Caixa Principal</h4></div></div>"
            "<div class='col-md-6'>"
            "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
            "<span style='display: none;'>" + String(0) + "</span>"
-           "<h1>" + ((nivel_anterior == 15) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_100.png' alt='' width='290' height=220' />100%</div>"
-                     : (nivel_anterior == 11) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_66.png' alt='' width='290' height=220' />70%</div>"
-                     : (nivel_anterior == -1) ? "Carregando" : (nivel_anterior == 4) ? "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_maior_33.png' alt='' width='290' height=220' />40%</div>"
-                     : "<div style='text-align: center;'><img src='http://caixagg.planetfone.com.br/img/caixa_dagua_menor_33.png' alt='' width='290' height=220' />15%</div>") + "</h1></html>"
+           "<h1>" + ((nivel_anterior == 15) ? "<div style='text-align: center;'><img src='http://iot-day.com/images/projects/caixa_dagua_100.png' alt='' width='290' height=220' />100%</div>"
+                     : (nivel_anterior == 11) ? "<div style='text-align: center;'><img src='http://iot-day.com/images/projects/caixa_dagua_maior_66.png' alt='' width='290' height=220' />70%</div>"
+                     : (nivel_anterior == -1) ? "Carregando" : (nivel_anterior == 4) ? "<div style='text-align: center;'><img src='http://iot-day.com/images/projects/caixa_dagua_maior_33.png' alt='' width='290' height=220' />40%</div>"
+                     : "<div style='text-align: center;'><img src='http://iot-day.com/images/projects/caixa_dagua_menor_33.png' alt='' width='290' height=220' />15%</div>") + "</h1></html>"
            "<p>&nbsp;</p>"
            "<div style='text-align: center;'>&copy 2019 - Epaminondas Lage </div>"
            "<p>&nbsp;</p>"
