@@ -6,8 +6,8 @@
     Necessita disponibilizar figuras da caixa dágua com vários níveis
     em diretorio na web
     Data 30/05/2019
-    Versão atualizada em 21/06/2019
-    Usar em boias com contato fechado quando estiver baixa
+    Versão atualizada em  22/06/2019
+    Escolher o tipo de boia a ser utilizada na variável "contato"    
  *************************************************************************/
 
 #include <Wire.h>
@@ -42,7 +42,15 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define tempo_sirene 1
 int frequencia = 0;
 
-int valor_s1 = 1, valor_s2 = 1, valor_s3 = 1;
+//Atenção ao usar boias verifique se: 
+//Na posição inferior o contato é fechado, assim contato  = 0
+//Na posição inferior o contato é  aberto, assim contato  = 1
+boolean contato = 0;
+
+int valor_s1 = contato, valor_s2 = contato, valor_s3 = contato;
+
+
+
 
 // Simbolos para display na vertical
 // Display montado na posição vertical
@@ -179,7 +187,7 @@ void loop() {
   Serial.println(valor_s3);
   delay(3000);
   // Checa o nivel e atualiza o display
-  if ((valor_s1 == 0) && valor_s2 == 0 && valor_s3 == 0)
+  if (valor_s1 == contato && valor_s2 == contato && valor_s3 == contato)
   {
     // Atualiza o nivel no display, enviando o numero de
     // "quadrados" que devem ser mostrados para indicar o nível
@@ -188,13 +196,13 @@ void loop() {
   }
 
   int valorTotal = 0;
-  if (valor_s1 == 0) {
+  if (valor_s1 == contato) {
     valorTotal = 4;
   }
-  if (valor_s2 == 0 && valor_s1 == 0) {
+  if (valor_s2 == contato && valor_s1 == contato) {
     valorTotal = 11;
   }
-  if (valor_s3 == 0 && valor_s2 == 0 && valor_s1 == 0) {
+  if (valor_s3 == contato && valor_s2 == contato && valor_s1 == contato) {
     valorTotal = 15;
   }
 
