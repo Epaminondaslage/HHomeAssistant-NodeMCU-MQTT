@@ -19,8 +19,8 @@
 
 // Declara SSID e Senha da rede wifi. Colocar os dados da sua rede
 #ifndef STASSID
-#define STASSID "xxxxxxxxxx"
-#define STAPSK  "xxxxxxxxxx"
+#define STASSID "meu SSID"
+#define STAPSK  "minha senha"
 #endif
 
 const char* ssid = STASSID;
@@ -45,7 +45,7 @@ int frequencia = 0;
 //Atenção ao usar boias verifique se: 
 //Na posição inferior o contato é fechado, assim contato  = 0
 //Na posição inferior o contato é  aberto, assim contato  = 1
-boolean contato = 0;
+boolean contato = 1;
 
 int valor_s1 = contato, valor_s2 = contato, valor_s3 = contato;
 
@@ -176,11 +176,11 @@ void loop() {
   valor_s3 = digitalRead(sensor3);
 
   // Mostra valor dos sensores no serial monitor
-  Serial.print("S1: ");
+  Serial.print("  Vazio S1: ");
   Serial.print(valor_s1);
-  Serial.print(" S2: ");
+  Serial.print("  Médio S2: ");
   Serial.print(valor_s2);
-  Serial.print(" S3: ");
+  Serial.print("  Cheio S3: ");
   Serial.println(valor_s3);
   delay(3000);
   // Checa o nivel e atualiza o display
