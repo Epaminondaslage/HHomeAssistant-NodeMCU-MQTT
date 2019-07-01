@@ -20,15 +20,16 @@ Principais características da placa:
 
 ## Figuras
 
+<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/NodeMCU_RFID_LCD_16x2_Webserver_Rele/nodemcu.jpg" height="400" width="400">
 
 
 ## Drives
-* 
-* 
+https://www.nodemcu.com/index_en.html 
+https://github.com/nodemcu/nodemcu-firmware 
 
 ## Setup
 Para Instalar o NodeMCU no Windows seguir o tutorial:
-
+http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/
 
 
 ## Status
