@@ -20,6 +20,8 @@ Principais características da placa:
 
 ## Figuras
 
+<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/NodeMCU_RFID_LCD_16x2_Webserver_Rele/nodemcu.jpg" height="400" width="400">
+
 
 
 ## Drives
