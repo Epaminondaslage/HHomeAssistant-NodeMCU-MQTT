@@ -56,12 +56,12 @@
 
 
 // Pinos do RFI MRFC 522
-#define SS_PIN  0 // pin D3
-#define RST_PIN 2 // pin D4
+#define RST_PIN  15 // RST-PIN für RC522 - RFID - SPI - Modul GPIO15 
+#define SS_PIN  2  // SDA-PIN für RC522 - RFID - SPI - Modul GPIO2 
 
 //pino de saida para acionamento do relé
-#define P1 D0    // pin D0
-#define P2 D8    // pin D8
+#define P1 10    // pin SD3 gpio 10
+#define P2 9    // pin D8 gpio 9
 
 //https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer
 #include <ESP8266WebServer.h>
@@ -98,10 +98,6 @@
 //https://github.com/knolleary/pubsubclient
 #include <PubSubClient.h>
 
-//Pinos do RFID MR522
-#define RST_PIN  15 // RST-PIN für RC522 - RFID - SPI - Modul GPIO15 
-#define SS_PIN  2  // SDA-PIN für RC522 - RFID - SPI - Modul GPIO2 
-
 //Criando WIFIClient
 WiFiClient espClient;
 
@@ -115,8 +111,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 //WIFI parametros.
-const char* ssid = "Popo";
-const char* password = "planetfone";
+const char* ssid = "123644987";
+const char* password = "planeta514";
 
 // Inicializa Servidor Web
 ESP8266WebServer server(80);
@@ -204,10 +200,10 @@ void setup_wifi() {
   Serial.println("");
 
   //Importante : Configura NodeMCU com IP fixo. Ajustar para sua rede
-  IPAddress subnet(255, 255, 255, 0);
-  WiFi.config(IPAddress(10, 0, 0, 26), IPAddress(10, 0, 0, 1), subnet);
+  //IPAddress subnet(255, 255, 255, 0);
+  //WiFi.config(IPAddress(10, 0, 0, 26), IPAddress(10, 0, 0, 1), subnet);
   Serial.println("IP Fixo");
- 
+
   Serial.println("WiFi conectado");
   Serial.println("Endereco IP : ");
   Serial.println(WiFi.localIP());
@@ -339,19 +335,30 @@ void loop() {
   }
   client.loop();
 
+  Serial.print(". ");
   //Verificando existencia do card no leitor
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
     delay(1000);
     return;
   }
-
+  Serial.print("1 ");
   //Verificando Leitura do card
   if ( ! mfrc522.PICC_ReadCardSerial()) {
     delay(1000);
     return;
   }
-
+  Serial.print("2 ");
   //Enviando mensagem
+  Serial.print("\nEncontrado: ");
+  String conteudo = "";
+  byte letra;
+  for (byte i = 0; i < mfrc522.uid.size; i++)
+  {
+    Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    Serial.print(mfrc522.uid.uidByte[i], HEX);
+    conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
+    conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
+  }
   sendMessage(mfrc522);
 
   server.handleClient();
