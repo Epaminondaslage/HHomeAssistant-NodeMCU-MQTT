@@ -19,8 +19,8 @@
                MFRC522      NodeMCU
    Signal      Pin          Pin      GPIO
    -----------------------------------------------------------------
-   RST/Reset   RST           D4    GPIO 02
-   SPI SS      SDA(SS)       D3    GPIO 00
+   RST/Reset   RST           D3    GPIO 00
+   SPI SS      SDA(SS)       D4    GPIO 02
    SPI MOSI    MOSI          D7    GPIO 13
    SPI MISO    MISO  SCL     D6    GPIO 12
    SPI SCK     SCK           D5    GPIO 14
@@ -56,8 +56,8 @@
 
 
 // Pinos do RFI MRFC 522
-#define RST_PIN  15 // RST-PIN für RC522 - RFID - SPI - Modul GPIO15 
-#define SS_PIN  2  // SDA-PIN für RC522 - RFID - SPI - Modul GPIO2 
+#define RST_PIN  D3 // RST    -PIN für RC522 - RFID  GPIO 00 
+#define SS_PIN  D4  // SDA(SS)-PIN für RC522 - RFID  GPIO 02 
 
 //pino de saida para acionamento do relé
 #define P1 10    // pin SD3 gpio 10
