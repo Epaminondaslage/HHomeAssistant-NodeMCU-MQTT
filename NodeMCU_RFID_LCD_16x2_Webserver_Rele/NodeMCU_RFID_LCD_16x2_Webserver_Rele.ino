@@ -151,11 +151,11 @@ void setup() {
   Serial.begin(9600);
 
   // Define pino de saída
-  pinMode(P1, OUTPUT);
-  pinMode(P2, OUTPUT);
+  /*pinMode(P1, OUTPUT);
+    pinMode(P2, OUTPUT);
 
-  digitalWrite(P1, HIGH);          //coloca saída em LOW  para desligar o P1
-  digitalWrite(P2, HIGH);          //coloca saída em LOW  para desligar o P2
+    digitalWrite(P1, HIGH);          //coloca saída em LOW  para desligar o P1
+    digitalWrite(P2, HIGH);          //coloca saída em LOW  para desligar o P2*/
 
 
   //Chamando método de conexão WIFI
@@ -305,22 +305,35 @@ void printLCD(String mensagem) {
 
 //Método de envio do id do cartão lido pra fila acesso
 void sendMessage(MFRC522 mfrc522) {
-  printLCD("Lendo Cartao");
-  char rfidstr[15];
-  char s[100];
-  for (int i = 0; i < mfrc522.uid.size; i++) {
-
+  /*printLCD("Lendo Cartao");
+    char rfidstr[15];
+    char s[100];
+    for (int i = 0; i < mfrc522.uid.size; i++) {
     //Conversão de byte pra Hexadecimal
     sprintf(s, "%x", mfrc522.uid.uidByte[i]);
-
     //Concatenando para o array de char que será enviado
     strcat( &rfidstr[i] , s);
+    }
+    Serial.print("Cartão ID# : ");
+    Serial.print(rfidstr);*/
+
+
+  Serial.print("\nEncontrado: ");
+  String conteudo = "";
+  byte letra;
+  for (byte i = 0; i < mfrc522.uid.size; i++)
+  {
+    conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : ""));
+    conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
-  Serial.print("Cartão ID# : ");
-  Serial.print(rfidstr);
+
+  //Serial.println(conteudo);
 
   //Publicando na fila acesso o id do cartão lido
-  client.publish("acesso", rfidstr);
+  char charBuf[50];
+  conteudo.toCharArray(charBuf, 50);
+  Serial.println(charBuf);
+  client.publish("pedeserra", charBuf);
 
   Serial.println();
   printLCD("Verificando...");
@@ -341,24 +354,23 @@ void loop() {
     delay(1000);
     return;
   }
-  Serial.print("1 ");
+
   //Verificando Leitura do card
   if ( ! mfrc522.PICC_ReadCardSerial()) {
     delay(1000);
     return;
   }
-  Serial.print("2 ");
   //Enviando mensagem
-  Serial.print("\nEncontrado: ");
-  String conteudo = "";
-  byte letra;
-  for (byte i = 0; i < mfrc522.uid.size; i++)
-  {
+  /*Serial.print("\nEncontrado: ");
+    String conteudo = "";
+    byte letra;
+    for (byte i = 0; i < mfrc522.uid.size; i++)
+    {
     Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
     Serial.print(mfrc522.uid.uidByte[i], HEX);
     conteudo.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     conteudo.concat(String(mfrc522.uid.uidByte[i], HEX));
-  }
+    }*/
   sendMessage(mfrc522);
 
   server.handleClient();
