@@ -58,6 +58,7 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
 ## Drives
 https://www.nodemcu.com/index_en.html 
 https://github.com/nodemcu/nodemcu-firmware 
+https://github.com/nodemcu/nodemcu-devkit-v1.0
 
 ## Setup
 Para Instalar o NodeMCU no Windows seguir o tutorial:
