@@ -50,7 +50,7 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
 
 ## Figuras
 
-<img src="https://github.com/Epaminondaslage/NodeMCU/figuras/nodemcu.jpg" height="400" width="400">
+<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/esp8266-nodemcu-pinout.png" height="400" width="400">
 
 
 ## Drives
