@@ -1,4 +1,4 @@
-# NodeMCU
+# NodeMCU com MQTT e conexão ao Home Assistant
 Programas de exemplo de uso da placa NodeMCU 
 
 <img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
@@ -8,6 +8,7 @@ Programas de exemplo de uso da placa NodeMCU
 * [Figuras](#Figuras)
 * [Drives](#Drives)
 * [Setup](#setup)
+* [NodeMcu e MQTT](#MQTT)
 * [Status](#status)
 * [Contato](#contato)
 
@@ -63,7 +64,29 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
 <li>https://github.com/nodemcu/nodemcu-devkit-v1.0</li>
 </ul>
 
- 
+## MQTT
+
+MQTT  com NodeMCU e Home Assistant
+Embora o NodeMCU possuir um chip com desempenho superior à maioria dos chips disponíveis no mercado para a mesma finalidade, ele ainda é um processador bastante limitado e precisa trabalhar com protocolos leves, como o MQTT, para fornecer um desempenho satisfatório.
+A configuração do broker para a arquitetura publish-subscribe e o uso do MQTT requerem apenas a instalação de um servidor MQTT. Com um broker devidamente instalado, os tópicos aos quais os sensores e atuadores publicam e se inscrevem serão criados e apagados dinamicamente, de acordo com o seu uso e configuração. Atualmente, há vários servidores MQTT de código aberto no mercado, o Mosquitto, da Eclipse Foundation será utilizado no Home Assistant.
+Para gerenciar os objetos conectados ao broker e as conexões, pacotes de controle são transmitidos pela rede. Através desses pacotes, é garantido que todas as mensagens enviadas cheguem ao broker e torna-se possível estabelecer níveis de QoS (Quality of Service). Os principais pacotes trafegados entre os objetos são:
+<ul>
+<li></li>CONNECT: Enviado pelo cliente para se conectar ao broker.
+<li>CONNACK: Reconhecimento da solicitação de conexão.
+<li>PUBLISH: Enviado pelo cliente para o broker, publicando uma mensagem.
+<li>PUBACK: Reconhecimento da solicitação de publicação.
+<li>PUBREC: Publicação recebida. QoS 0: a mensagem não é armazenada. A mensagem é entregue no máximo uma vez ou não é entregue. Pode ser perdida se o cliente for desconectado ou se o servidor falhar.
+<li>PUBREL: Publicação publicada. QoS 1: modo de transferência padrão. A mensagem é sempre entregue pelo menos uma vez. Se o emissor não receber uma confirmação, a mensagem será enviada novamente.
+<li>PUBCOMP: Publicação completada. QoS 2: a mensagem é sempre entregue exatamente uma vez e é armazenada localmente no emissor e no receptor até ser processada.
+<li>SUBSCRIBE: Enviado para se inscrever em determinado tópico.
+<li>SUBACK: Reconhecimento da inscrição.
+<li>UNSUBSCRIBE: Enviado para cancelar a inscrição em determinado tópico.
+<li>UNSUBACK: Reconhecimento do cancelamento de inscrição.
+<li>DISCONNECT: Enviado para se desconectar do broker.
+
+Para facilitar a utilização do protocolo MQTT com o NodeMCU, existe a biblioteca de código aberto "PubSubClient". Com essa biblioteca, é possível trocar mensagens MQTT com um broker de forma simplificada. Além do MQTT, existem outras bibliotecas de código aberto que ajudam a tratar e implementar os protocolos necessários para conectar e aumentar a precisão do sensoriamento do NodeMCU. Algumas das bibliotecas amplamente utilizadas e em constante produção incluem: ESP8266WiFi, WiFiManager, ArduinoOTA e Bounce2
+
+
 
 
 ## Setup
