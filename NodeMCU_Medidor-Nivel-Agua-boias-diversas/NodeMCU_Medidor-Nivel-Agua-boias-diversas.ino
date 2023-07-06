@@ -19,8 +19,8 @@
 
 // Declara SSID e Senha da rede wifi. Colocar os dados da sua rede
 #ifndef STASSID
-#define STASSID "pedeserra"
-#define STAPSK  "planetfone"
+#define STASSID "xxxxxxxxx"
+#define STAPSK  "xxxxxxxxx"
 #endif
 
 const char* ssid = STASSID;
