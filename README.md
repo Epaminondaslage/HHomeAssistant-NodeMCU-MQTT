@@ -1,7 +1,5 @@
 # Home Assistant- NodeMCU com MQTT 
 
-<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
-
 ## Sumário
 * [Informações Gerais](#user-content-informacoes_gerais)
 * [Figuras](#Figuras)
@@ -15,6 +13,9 @@
 
 
 Principais características da placa:
+
+<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
+
 
 Funções dos pinos do NodeMCU ESP12 :
 
