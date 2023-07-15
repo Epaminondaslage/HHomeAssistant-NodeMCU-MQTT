@@ -1,23 +1,31 @@
-# Home Assistant- NodeMCU com MQTT 
+<td style="width: 20%;"><img src="https://github.com/Epaminondaslage/Automacao-industrial-e-residencial-Ecossistema-didatico/blob/main/img/Logo_CEFET-MG.png" width="20%" /></td>
+<p><strong>Home Assistant- NodeMCU com MQTT  </strong></p>
+<p><strong>Prof Epaminondas Lage</strong></p>
+<a href="http://lattes.cnpq.br/7787341723868111"> Currículo Lattes LAGE, E. S.</a> 
 
-## Sumário
-* [Informações Gerais](#user-content-informacoes_gerais)
+# Índice 
+* [Sites relacionados ao NodeMCU com MQTT](#Sites-relacionados-ao-NodeMCU-com-MQTT)
+* [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
 * [Figuras](#Figuras)
 * [Drives](#Drives)
 * [Setup](#setup)
-* [NodeMcu e MQTT](#MQTT)
+* [NodeMCU e MQTT](#NodeMCU-e-MQTT)
 * [Status](#status)
 * [Contato](#contato)
 
+# Sites relacionados ao NodeMCU com MQTT
+
+* https://sssssssss/
+* https://ssssssssss/
+
+
 <h2 id="informacoes_gerais">Informações Gerais</h2>
 
+# Funções dos pinos do NodeMCU ESP12
 
 Principais características da placa:
 
 <img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
-
-
-Funções dos pinos do NodeMCU ESP12 :
 
 Todos os pinos GPIOs, podem ser entradas ou saídas dependendo da configuração dos mesmos. Não ultrapasse a corrente de 12 mA em cada porta dessas, pois poderá danificar o chip. O recomendado é 6 mA. O nível de tensão a ser usado nessas portas não deverá ultrapassar os 3,3V. Se for necessário conectar o NodeMCU à outro dispositivo de tensão maior, como um Arduino ou módulos de 5V, use conversores bidirecionais de tensão como o do link abaixo ou use divisores resistivos de tensão.
 O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância entre as duas fileiras é grande (2,30 cm), mas poderá inseri-lo em um Protoboard padrão. Os pinos RESERVED não deverão ser usados, como o nome já diz, são reservados.
@@ -37,7 +45,6 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     ADC0– pino de entrada do conversor analógico digital ADC de 10 bits. Tensão máxima de 1,1V (variação do valor digital – 0 a 1024).
 
  
-
     D0 – pino GIPO_16 pode ser usado para acordar (WAKE UP) o ESP8266 em modo sono profundo (Deep sleep mode).
     D1 – pino GPIO_5 – entrada ou saída.
     D2 – pino GIPO_4 – entrada ou saída.
@@ -51,12 +58,12 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     TX – pino GIPO_1 – U0TXD quando carregando o programa na memória FLASH.
 
 
-## Figuras
+# Figuras
 
 <img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/esp8266-nodemcu-pinout.png" height="400" width="400">
 
 
-## Drives
+# Drives
 
 <ul>
 <li>https://www.nodemcu.com/index_en.html </li>
@@ -64,12 +71,15 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
 <li>https://github.com/nodemcu/nodemcu-devkit-v1.0</li>
 </ul>
 
-## MQTT
+# NodeMCU e MQTT
 
 MQTT  com NodeMCU e Home Assistant
 Embora o NodeMCU possuir um chip com desempenho superior à maioria dos chips disponíveis no mercado para a mesma finalidade, ele ainda é um processador bastante limitado e precisa trabalhar com protocolos leves, como o MQTT, para fornecer um desempenho satisfatório.
+
 A configuração do broker para a arquitetura publish-subscribe e o uso do MQTT requerem apenas a instalação de um servidor MQTT. Com um broker devidamente instalado, os tópicos aos quais os sensores e atuadores publicam e se inscrevem serão criados e apagados dinamicamente, de acordo com o seu uso e configuração. Atualmente, há vários servidores MQTT de código aberto no mercado, o Mosquitto, da Eclipse Foundation será utilizado no Home Assistant.
+
 Para gerenciar os objetos conectados ao broker e as conexões, pacotes de controle são transmitidos pela rede. Através desses pacotes, é garantido que todas as mensagens enviadas cheguem ao broker e torna-se possível estabelecer níveis de QoS (Quality of Service). Os principais pacotes trafegados entre os objetos são:
+
 <ul>
 <li></li>CONNECT: Enviado pelo cliente para se conectar ao broker.
 <li>CONNACK: Reconhecimento da solicitação de conexão.
@@ -86,17 +96,13 @@ Para gerenciar os objetos conectados ao broker e as conexões, pacotes de contro
 
 Para facilitar a utilização do protocolo MQTT com o NodeMCU, existe a biblioteca de código aberto "PubSubClient". Com essa biblioteca, é possível trocar mensagens MQTT com um broker de forma simplificada. Além do MQTT, existem outras bibliotecas de código aberto que ajudam a tratar e implementar os protocolos necessários para conectar e aumentar a precisão do sensoriamento do NodeMCU. Algumas das bibliotecas amplamente utilizadas e em constante produção incluem: ESP8266WiFi, WiFiManager, ArduinoOTA e Bounce2
 
-
-
-
-## Setup
+# Setup
 Para Instalar o NodeMCU no Windows seguir o tutorial:</P>
 http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/
 
-
-## Status
+# Status
 Este repositório é para alunos do Curso de Eletrotécnica do CEFET-MG 
 
-## Contato
+# Contato
 Criado/adaptado por Epaminondas de Souza  Lage - epaminondaslage@gmail.com ou epaminondaslage@cefetmg.br
 
