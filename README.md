@@ -1,5 +1,4 @@
-# NodeMCU com MQTT e conexão ao Home Assistant
-Programas de exemplo de uso da placa NodeMCU 
+# Home Assistant- NodeMCU com MQTT 
 
 <img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/NodeMcu%20ESP-12.png" height="200" width="200">
 
