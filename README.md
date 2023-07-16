@@ -4,7 +4,7 @@
 <a href="http://lattes.cnpq.br/7787341723868111"> Currículo Lattes LAGE, E. S.</a> 
 
 # Índice 
-* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-HomeAssistant,-NodeMCU-com-MQTT)
+* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
 * [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
 * [Figuras](#Figuras)
 * [Drives](#Drives)
