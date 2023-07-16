@@ -1,10 +1,10 @@
 <td style="width: 20%;"><img src="https://github.com/Epaminondaslage/Automacao-industrial-e-residencial-Ecossistema-didatico/blob/main/img/Logo_CEFET-MG.png" width="20%"></td>
-<p><strong>Home Assistant- NodeMCU com MQTT  </strong></p>
+<p><strong>Home Assistant, NodeMCU com MQTT  </strong></p>
 <p><strong>Prof Epaminondas Lage</strong></p>
 <a href="http://lattes.cnpq.br/7787341723868111"> Currículo Lattes LAGE, E. S.</a> 
 
 # Índice 
-* [Sites relacionados ao NodeMCU com MQTT](#Sites-relacionados-ao-NodeMCU-com-MQTT)
+* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados HomeAssistant,-NodeMCU-com-MQTT)
 * [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
 * [Figuras](#Figuras)
 * [Drives](#Drives)
@@ -13,7 +13,7 @@
 * [Status](#status)
 * [Contato](#contato)
 
-# Sites relacionados ao NodeMCU com MQTT
+# Sites relacionados ao Home Assistant, NodeMCU com MQTT
 
 * https://sssssssss/
 * https://ssssssssss/
