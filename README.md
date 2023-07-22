@@ -39,7 +39,6 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     SD3 – pino GIPO_10 – pode ser usado também para comunicação com SD Card (SDD3)
     RSV – reservado (não use).
     ADC0– pino de entrada do conversor analógico digital ADC de 10 bits. Tensão máxima de 1,1V (variação do valor digital – 0 a 1024).
- </p>
     D0 – pino GIPO_16 pode ser usado para acordar (WAKE UP) o ESP8266 em modo sono profundo (Deep sleep mode).
     D1 – pino GPIO_5 – entrada ou saída.
     D2 – pino GIPO_4 – entrada ou saída.
