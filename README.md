@@ -11,7 +11,6 @@
 * [NodeMCU e MQTT](#NodeMCU-e-MQTT)
 * [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
 * [Status](#status)
-* [Contato](#contato)
 
 # Introdução
 
@@ -96,9 +95,7 @@ http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/
 * https://sssssssss/
 * https://ssssssssss/
 
-# Status
-Este repositório é para alunos do Curso de Eletrotécnica do CEFET-MG 
+# Status do Projeto
 
-# Contato
-Criado/adaptado por Epaminondas de Souza  Lage - epaminondaslage@gmail.com ou epaminondaslage@cefetmg.br
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
