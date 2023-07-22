@@ -4,22 +4,18 @@
 <a href="http://lattes.cnpq.br/7787341723868111"> Currículo Lattes LAGE, E. S.</a> 
 
 # Índice 
-* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
+* [Introdução](#Introdução)
 * [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
-* [Figuras](#Figuras)
 * [Drives](#Drives)
 * [Setup](#setup)
 * [NodeMCU e MQTT](#NodeMCU-e-MQTT)
+* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
 * [Status](#status)
 * [Contato](#contato)
 
-# Sites relacionados ao Home Assistant, NodeMCU com MQTT
+# Introdução
 
-* https://sssssssss/
-* https://ssssssssss/
-
-
-<h2 id="informacoes_gerais">Informações Gerais</h2>
+O NodeMCU é uma placa de desenvolvimento baseada no ESP8266 com conectividade Wi-Fi e GPIOs, ideal para projetos de IoT. O Home Assistant é uma plataforma de automação residencial de código aberto que oferece uma interface centralizada para controlar dispositivos e serviços. Integrando o NodeMCU com o Home Assistant, é possível criar dispositivos personalizados e usar o Home Assistant para controlar e monitorar esses dispositivos. Isso permite criar automações sofisticadas e personalizadas para tornar a casa mais inteligente e conveniente, usando o NodeMCU para interagir com sensores e atuadores e o Home Assistant para gerenciar toda a automação.
 
 # Funções dos pinos do NodeMCU ESP12
 
@@ -43,7 +39,7 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     SD3 – pino GIPO_10 – pode ser usado também para comunicação com SD Card (SDD3)
     RSV – reservado (não use).
     ADC0– pino de entrada do conversor analógico digital ADC de 10 bits. Tensão máxima de 1,1V (variação do valor digital – 0 a 1024).
- 
+ </p>
     D0 – pino GIPO_16 pode ser usado para acordar (WAKE UP) o ESP8266 em modo sono profundo (Deep sleep mode).
     D1 – pino GPIO_5 – entrada ou saída.
     D2 – pino GIPO_4 – entrada ou saída.
@@ -55,9 +51,6 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     D8 – pino GPIO_15  pode ser usado em SPI de alta velocidade (HSPI-CS) ou UART0_RTS.
     RX – pino GPIO_3 – U0RXD quando carregando o programa na memória FLASH.
     TX – pino GIPO_1 – U0TXD quando carregando o programa na memória FLASH.
-
-
-# Figuras
 
 <img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/esp8266-nodemcu-pinout.png" height="400" width="400">
 
@@ -98,6 +91,11 @@ Para facilitar a utilização do protocolo MQTT com o NodeMCU, existe a bibliote
 # Setup
 Para Instalar o NodeMCU no Windows seguir o tutorial:</P>
 http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/
+
+# Sites relacionados ao Home Assistant, NodeMCU com MQTT
+
+* https://sssssssss/
+* https://ssssssssss/
 
 # Status
 Este repositório é para alunos do Curso de Eletrotécnica do CEFET-MG 
