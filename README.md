@@ -1,13 +1,14 @@
 <td style="width: 20%;"><img src="/Figuras/top_ha_nodemcu_mqtt.png" width="100%"></td>
 
-# Índice 
-* [Introdução](#Introdução)
-* [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
-* [Drives](#Drives)
-* [Setup](#setup)
-* [NodeMCU e MQTT](#NodeMCU-e-MQTT)
-* [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
-* [Status](#status)
+# Índice
+
+- [Introdução](#Introdução)
+- [Funções dos pinos do NodeMCU ESP12](#Funções-dos-pinos-do-NodeMCU-ESP12)
+- [Drives](#Drives)
+- [Setup](#setup)
+- [NodeMCU e MQTT](#NodeMCU-e-MQTT)
+- [Sites relacionados ao Home Assistant, NodeMCU com MQTT](#Sites-relacionados-ao-Home-Assistant,-NodeMCU-com-MQTT)
+- [Status](#status)
 
 # Introdução
 
@@ -47,8 +48,7 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
     RX – pino GPIO_3 – U0RXD quando carregando o programa na memória FLASH.
     TX – pino GIPO_1 – U0TXD quando carregando o programa na memória FLASH.
 
-<img src="https://github.com/Epaminondaslage/NodeMCU/blob/master/Figuras/esp8266-nodemcu-pinout.png" height="400" width="400">
-
+<img src="Figuras/esp8266-nodemcu-pinout.png" height="400" width="400">
 
 # Drives
 
@@ -60,7 +60,7 @@ O NodeMCU ESP12 tem duas fileiras de 15 pinos (total 30 pinos). A distância ent
 
 # NodeMCU e MQTT
 
-MQTT  com NodeMCU e Home Assistant
+MQTT com NodeMCU e Home Assistant
 Embora o NodeMCU possuir um chip com desempenho superior à maioria dos chips disponíveis no mercado para a mesma finalidade, ele ainda é um processador bastante limitado e precisa trabalhar com protocolos leves, como o MQTT, para fornecer um desempenho satisfatório.
 
 A configuração do broker para a arquitetura publish-subscribe e o uso do MQTT requerem apenas a instalação de um servidor MQTT. Com um broker devidamente instalado, os tópicos aos quais os sensores e atuadores publicam e se inscrevem serão criados e apagados dinamicamente, de acordo com o seu uso e configuração. Atualmente, há vários servidores MQTT de código aberto no mercado, o Mosquitto, da Eclipse Foundation será utilizado no Home Assistant.
@@ -83,16 +83,271 @@ Para gerenciar os objetos conectados ao broker e as conexões, pacotes de contro
 
 Para facilitar a utilização do protocolo MQTT com o NodeMCU, existe a biblioteca de código aberto "PubSubClient". Com essa biblioteca, é possível trocar mensagens MQTT com um broker de forma simplificada. Além do MQTT, existem outras bibliotecas de código aberto que ajudam a tratar e implementar os protocolos necessários para conectar e aumentar a precisão do sensoriamento do NodeMCU. Algumas das bibliotecas amplamente utilizadas e em constante produção incluem: ESP8266WiFi, WiFiManager, ArduinoOTA e Bounce2
 
-# Setup
-Para Instalar o NodeMCU no Windows seguir o tutorial:</P>
-http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/
+## MQTT Discovery no Home Assistant
+
+Home Assistant permite a descoberta automatica de dispositivos comunicando via MQTT sem a necessidade de cadastro prévio através do MQTT discovery. Isso permite a utilização de dispositivos MQTT com um esforço mínimo de configuração, sendo esta efetuada no próprio dispositivo e no tópico utilizado pelo dispositivo. Para evitar múltiplas entradas idênticas se um dispositivo se voltar a ligar, um identificador único é aplicado a cada dispositivo.
+
+Para criar um dispositivo no Home Assistant via MQTT discovery, são necessários apenas 2 publicações em tópicos no MQTT por parte do dispositivo:
+
+1. **Mensagem de configuração:** Publicada num tópico de configuração, contém o tipo de dispositivo necessário (**device_class**), identificador único (**unique_id**), tópico onde as atualizações de valores serão realizadas (**state_topic**) e o restante da configuração do dispositivo. O tópico da mensagem de configuração precisa seguir o seguinte formato:
+
+   **<span style="color:green">\<discovery_prefix\>/</span><span style="color:red">\<component\>/</span><span style="color:yellow">[\<node_id\>/]</span><span style="color:dodgerblue">\<object_id\>/</span>config**
+
+   - **<span style="color:green">\<discovery_prefix\>/</span>**: O prefixo de descoberta predefinido é **<span style="color:green">homeassistant</span>**. Este prefixo pode ser alterado.
+   - **<span style="color:red">\<component\>/</span>**: Uma das integrações MQTT suportadas, como **<span style="color:red">sensor</span>** ou **<span style="color:red">binary_sensor</span>**.
+   - **<span style="color:yellow">[\<node_id\>/]</span>**(Opcional): ID do nó que fornece o tópico, não é utilizado pelo Home Assistant mas pode ser utilizado para estruturar o tópico MQTT. O ID do nó deve consistir apenas em caracteres da classe de caracteres [a-zA-Z0-9_-] (alfanuméricos, sublinhado e hífen).
+   - **<span style="color:dodgerblue">\<object_id\>/</span>**: A ID do dispositivo. Isto serve apenas para permitir tópicos separados para cada dispositivo e não é utilizado para o entity_id. O ID do dispositivo deve consistir apenas em caracteres da classe de caracteres [a-zA-Z0-9_-] (alfanuméricos, sublinhado e hífen).
+
+   Exemplo para criar um sensor de umidade utilizando o comando mosquitto_pub na linha de comando do Linux para publicar num tópico MQTT no formato mencionado acima:
+   - mosquitto_pub -h 172.16.10.169 -p 1883 -u mqttUser -P senha -m '{"unique_id":"umiidade_cozinha_1","device_class":"humidity","unit_of_measurement":"%","name":"Umidade Cozinha 1","state_topic":"umidade1/cozinha/state"}' -t homeassistant/sensor/umidade/cozinha/config -r
+
+2. **Mensagem de atualização:** Publicada no tópico informado na mensagem de configuração, contém o valor enviado pelo dispositivo ao Home Assistant.
+
+   Exemplo para publicar o valor de umidade do sensor:
+   - mosquitto_pub -h 172.16.10.169 -p 1883 -u mqttUser -P senha -t "umidade1/cozinha/state" -m 58.73
+
+
+# Arduino IDE
+
+Uma das grandes vantagens do NodeMCU é que ele funciona como se fosse um arduino e pode ser programado utilizando a mesma IDE. O tutorial a seguir ensina o passo-a-passo de como programar o NodeMCU utilizando a IDE do Arduino no Windows ou Linux:
+
+[Guia NodeMCU – ESP12 – Usando Arduino IDE](http://blog.eletrogate.com/nodemcu-esp12-usando-arduino-ide-2/)
+
+# Aplicação: Sensor de Umidade DH11 e LED.
+
+As imagens abaixo mostram exemplos de ligação de um sensor de umidade DH11 e um LED ao NodeMCU. Neste exemplo, será feito um programa que irá ler o valor fornecido pelo sensor de umidade e enviar este valor para o Home Assistant via MQTT utilizando MQTT Discovery. Além disso, sera criada uma entidade auxiliar no Home Assistant para controlar o estado do LED via MQTT.
+
+![Alt text](imagens/DH11.png)
+
+![Alt text](imagens/LED.jpg)
+
+## O Codigo
+
+O codigo completo esta presente no repositorio no arquivo [mqtt.ino](mqtt.ino).
+
+### Bibliotecas utilizadas
+
+```cpp
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+#include <DHT11.h>
+```
+
+A biblioteca ESP8266WiFi veio instalada por padrão apos instalar o pacote da placa esp8266. As bibliotecas PubSubClient (para MQTT) e DHT11 (para o sensor de umidade) foram instaladas com os pacotes nas imagens abaixo.
+
+![Alt text](imagens/board_esp8266.png)
+![Alt text](imagens/lib_DHT11.png)
+![Alt text](imagens/lib_PubSubClient.png)
+
+### Pinos e configurações
+
+Lembre-se de modificar os usuarios, senhas e IP para corresponder à sua configuração.
+
+```cpp
+#define MQTT_CLIENT_ID "NodeMCU-Client_1"
+#define MQTT_USER "usuarioMQTT"
+#define MQTT_PASS "senhaMQTT"
+#define MQTT_SERVER "IP do MQTT broker"
+#define MQTT_PORT 1883
+
+#define WIFI_SSID "SSID da WIFI"
+#define WIFI_PASS "senhaWIFI"
+
+#define LED D1
+#define HUMIDITY_SENSOR D2
+```
+
+### Variáveis globais
+
+```cpp
+WiFiClient wlanclient;
+PubSubClient mqttClient(wlanclient);
+
+// Sensor de umidade
+DHT11 dht11(HUMIDITY_SENSOR);
+float UltimoValor = 0;
+int TimeCounter = 0;
+```
+
+### WIFI
+
+```cpp
+void connectWIFI()
+{
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+
+  Serial.println("Connecting to Wifi");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.print("\nConnected to WiFi, Got an IP address :");
+  Serial.println(WiFi.localIP());
+}
+```
+
+### MQTT (Conexão e callback)
+
+```cpp
+void reconnectMQTT()
+{
+  while (!mqttClient.connected())
+  {
+    Serial.println("Conectando ao Broker MQTT");
+    mqttClient.connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASS);
+    delay(1000);
+    Serial.println(mqttClient.state());
+    delay(2000);
+  }
+  Serial.println("MQTT conectado");
+}
+
+// Callback para ligar e desligar o LED
+void mqttCallback(char *topic, byte *payload, unsigned int length)
+{
+  Serial.print("Message arrived on Topic:");
+  Serial.println(topic);
+
+  payload[length] = '\0';
+  String message((char *)payload);
+
+  Serial.print("Message: ");
+  Serial.println(message);
+  if (message == "on")
+  {
+    digitalWrite(LED, HIGH);
+  }
+  if (message == "off")
+  {
+    digitalWrite(LED, LOW);
+  }
+}
+```
+
+### Setup: inicializa conexões e configura o sensor e o LED
+
+Utiliza MQTT discovery para criar o sensor como explicado acima.
+
+```cpp
+void setup()
+{
+  // Conexão serial: alterar dependendo da placa
+  Serial.begin(9600);
+
+  // Definir pino do LED como output
+  pinMode(LED, OUTPUT);
+
+  // Conectar ao WIFI
+  connectWIFI();
+
+  // Conectar ao broker de MQTT
+  mqttClient.setServer(MQTT_SERVER, MQTT_PORT);
+  mqttClient.setCallback(mqttCallback);
+  if (!mqttClient.connected())
+  {
+    reconnectMQTT();
+  }
+
+  // Configura o sensor através do MQTT Discovery do Home Assistant
+  String novosensor = "{\"expire_after\": \"600\", \"unique_id\":\"umidade_nodemcu_1\", \"device_class\":\"humidity\",\"unit_of_measurement\":\"%\", \"name\": \"Umidade NodeMCU 1\", \"state_topic\": \"nodemcu/umidade/state\"}";
+  mqttClient.publish("homeassistant/sensor/nodemcu/umidade/config", novosensor.c_str(), false);
+  delay(500);
+
+  // Cria um subscriber para receber comandos do Home Assistant
+  mqttClient.subscribe("nodemcu/led/command");
+}
+```
+
+### Loop: Logica principal do codigo
+
+Verifica se há comando recebidos, le o estado atual do sensor e, caso o estado tenha mudado publica o estado a cada 2 segundos para atualizar o valor no Home Assistant. Se ficar mais de 10 minutos (300 * 2 segundos = 600 segundos = 10 minutos) sem mudar o valor, ele reenvia o estado mesmo sem haver mudança.
+
+```cpp
+void loop()
+{
+  // Reconecta ao broker de MQTT se a conexão caiu
+  if (!mqttClient.connected())
+  {
+    reconnectMQTT();
+  }
+
+  // Recebe os eventos do subscriber e ativa o callback se há um novo evento
+  mqttClient.loop();
+
+  // Leitura do sensor de umidade
+  float humidity = dht11.readHumidity();
+  String humidity_str((float)humidity);
+
+  // Verifica se houve erro na leitura
+  if (humidity != -1)
+  {
+    // Imprime umidade no Serial
+    Serial.print("Humidity: ");
+    Serial.print(humidity);
+    Serial.println(" %");
+
+    // Publica a umidade via MQTT se o valor mudou
+    if (humidity != UltimoValor)
+    {
+      UltimoValor = humidity;
+      mqttClient.publish("nodemcu/umidade/state", humidity_str.c_str());
+      TimeCounter = 0;
+    }
+
+    // Publica a umidade via MQTT se tem mais de 10 minutos desde a ultima atualização
+    if (TimeCounter < 300)
+    {
+      TimeCounter++;
+    }
+    else if (TimeCounter >= 300)
+    {
+      mqttClient.publish("nodemcu/umidade/state", humidity_str.c_str());
+      TimeCounter = 0;
+    }
+  }
+  else
+  {
+    // Mensagem de erro em caso de falha na leitura do sensor de umidade
+    Serial.println("Error reading humidity");
+  }
+  // 2 segundos de delay entre iterações
+  delay(2000);
+}
+```
+
+## Entidades no Home Assistant
+
+Como explicado anteriormente, a entidade do sensor é adicionada automaticamente via MQTT discovery. A imagem abaixo mostra o display usando o cartão **Indicador**. Quanto ao botão utilizado para controlar o LED, foi criada uma entidade ajudante do tipo **input_boolean** como mostrado na imagem abaixo. Na interface grafica, esta entidade tem nome de **Alternar** e pode ser criada clicando em **Configurações** -> **Dispositivos & Serviços** -> **Entidades Ajudantes** -> **Criar Ajudante** -> **Alternar**.
+
+![Alt text](imagens/Dashboard_HA.png)
+
+![Alt text](imagens/Entidade_ajudante_alternar.png)
+
+### Automação
+
+Apos criar a entidade ajudante, criamos uma automação para enviar o comando adequando para o NodeMCU quando clicamos no botão utilizando o serviço **mqtt.publish**. Utiliza-se mustache template ( **{{}}** ) para obter o estado do botão.
+
+![Alt text](imagens/Automacao_NodeMCU_MQTT.png)
+
+```yaml
+service: mqtt.publish
+data:
+topic: nodemcu/led/command
+retain: true
+payload: "{{states('input_boolean.nodemcu_led')}}"
+```
+
+### Serial Monitor
+
+Podemos ver na imagem abaixo que o codigo executa como esperado, envia os valores do sensor de umidade e recebe os comandos para ligar e desligar o LED via MQTT no topico **nodemcu/led/command**
+
+![Alt text](imagens/Serial_monitor.png)
 
 # Sites relacionados ao Home Assistant, NodeMCU com MQTT
 
-* https://sssssssss/
-* https://ssssssssss/
+- Documentação oficial da integração do MQTT com Home assistant: https://www.home-assistant.io/integrations/mqtt/
 
 # Status do Projeto
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
-
